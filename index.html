@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Time Zone Converter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Zone Calculator</title>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
 </head>
 
 <body>
-    <h1>Time Zone Converter</h1>
+    <h1>Time Zone Calculator</h1>
 
     <label for="fromZone">From Time Zone:</label>
     <select id="fromZone" name="fromZone"></select>
@@ -40,111 +41,58 @@
 
             let allZones = [];
 
-            // GET ALL SUPPORTED TIME ZONES, WITH A FALLBACK IF NOT SUPPORTED
-            function getAllTimeZones() {
+            // GET ALL SUPPORTED TIME ZONES, WITH A FALLBACK MESSAGE IF NOT SUPPORTED
+            const getAllTimeZones = () => {
                 try {
                     return Intl.supportedValuesOf('timeZone');
                 } catch {
-                    return [
-                        'UTC',
-                        'America/New_York',
-                        'America/Chicago',
-                        'America/Denver',
-                        'America/Los_Angeles',
-                        'America/Anchorage',
-                        'America/Honolulu',
-                        'America/Argentina/Buenos_Aires',
-                        'Europe/London',
-                        'Europe/Paris',
-                        'Europe/Berlin',
-                        'Europe/Madrid',
-                        'Europe/Rome',
-                        'Europe/Stockholm',
-                        'Europe/Helsinki',
-                        'Asia/Tokyo',
-                        'Asia/Seoul',
-                        'Asia/Shanghai',
-                        'Asia/Hong_Kong',
-                        'Asia/Kolkata',
-                        'Asia/Singapore',
-                        'Asia/Dubai',
-                        'Australia/Sydney',
-                        'Australia/Melbourne',
-                        'Australia/Brisbane',
-                        'Australia/Perth',
-                        'Africa/Johannesburg',
-                        'Africa/Cairo',
-                        'Africa/Nairobi',
-                        'Africa/Lagos',
-                        'Pacific/Fiji',
-                        'Pacific/Auckland',
-                        'Pacific/Honolulu',
-                        'America/Sao_Paulo',
-                        'America/Mexico_City',
-                        'America/Lima',
-                        'America/Bogota',
-                        'America/Caracas',
-                        'America/Toronto',
-                        'Europe/Oslo',
-                        'Europe/Dublin',
-                        'Europe/Vienna',
-                        'Asia/Kuala_Lumpur',
-                        'Asia/Jakarta',
-                        'Asia/Manila',
-                        'Asia/Taipei',
-                        'Asia/Bangkok',
-                        'Pacific/Apia',
-                        'Pacific/Tongatapu',
-                        'America/Guatemala',
-                        'America/Edmonton',
-                        'America/Vancouver',
-                        'Asia/Baghdad',
-                        'Europe/Amsterdam',
-                        'Europe/Brussels',
-                        'Europe/Zurich',
-                        'Europe/Prague',
-                        'Africa/Abidjan',
-                        'Africa/Accra',
-                        'Africa/Kigali',
-                        'Africa/Tunis',
-                        'Africa/Lagos',
-                        'Asia/Tehran',
-                        'Asia/Tashkent',
-                        'Asia/Dhaka',
-                        'Asia/Yangon',
-                        'Asia/Almaty',
-                        'Pacific/Port_Moresby',
-                        'America/Montevideo',
-                        'America/Quito',
-                        'America/La_Paz',
-                        'Asia/Kathmandu',
-                        'Asia/Chennai',
-                        'Asia/Ho_Chi_Minh',
-                        'Asia/Phnom_Penh',
-                        'America/Kingston',
-                        'America/Port_of_Spain',
-                        'America/Guyana',
-                        'America/Curacao',
-                        'America/St_Johns'
-                    ];
+                    return 'Sorry!  Cannot connect to time zones.';
                 }
-            }
+            };
+
+            // FILTER TIME ZONES BY PREFIX
+            const filterZonesByPrefix = (prefix) => {
+                if (prefix === 'All') return allZones;
+                return allZones.filter(zone => zone.startsWith(prefix));
+            };
 
             // POPULATE TIME ZONE SELECT DROPDOWN
-            function populateTimeZoneSelect(selectEl, defaultZone = 'UTC') {
-                allZones.forEach(zone => {
+            const populateTimeZoneSelect = (selectEl, defaultZone = 'UTC', prefix = 'All') => {
+                selectEl.innerHTML = '';  // Clear existing options
+                const filteredZones = filterZonesByPrefix(prefix).sort(); // Sort the filtered zones alphabetically
+                const fragment = document.createDocumentFragment(); // Use fragment for efficient DOM insertion
+
+                filteredZones.forEach(zone => {
                     const opt = document.createElement('option');
                     opt.value = zone;
                     opt.textContent = zone;
-                    selectEl.appendChild(opt);
+                    fragment.appendChild(opt);
                 });
+
+                selectEl.appendChild(fragment);
                 selectEl.value = defaultZone;
-            }
+            };
 
             // CREATE A ROW FOR ADDING TIME ZONE SELECTORS
-            function createToZoneRow(defaultZone = 'UTC') {
+            const createToZoneRow = (defaultZone = 'UTC') => {
                 const container = document.createElement('div');
                 const select = document.createElement('select');
+                const prefixLinks = document.createElement('div');
+
+                // Create prefix links for "To Time Zones"
+                const prefixes = ['All', 'America', 'Europe', 'Asia', 'Africa', 'Pacific', 'Australia', 'Antarctica'];
+                prefixes.forEach(prefix => {
+                    const link = document.createElement('a');
+                    link.href = '#';
+                    link.textContent = prefix;
+                    link.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        populateTimeZoneSelect(select, defaultZone, prefix);
+                    });
+                    prefixLinks.appendChild(link);
+                });
+
+                container.appendChild(prefixLinks);
                 populateTimeZoneSelect(select, defaultZone);
 
                 const removeBtn = document.createElement('button');
@@ -161,15 +109,39 @@
                 container.appendChild(select);
                 container.appendChild(removeBtn);
                 toZonesContainer.appendChild(container);
-            }
+            };
+
+            // CREATE PREFIX LINKS FOR "FROM" ZONE
+            const createFromZonePrefixLinks = () => {
+                const prefixLinks = document.createElement('div');
+                const prefixes = ['All', 'America', 'Europe', 'Asia', 'Africa', 'Pacific', 'Australia', 'Antarctica'];
+
+                prefixes.forEach(prefix => {
+                    const link = document.createElement('a');
+                    link.href = '#';
+                    link.textContent = prefix;
+                    link.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        populateFromZoneSelect(prefix);
+                    });
+                    prefixLinks.appendChild(link);
+                });
+
+                fromZoneEl.parentNode.insertBefore(prefixLinks, fromZoneEl);
+            };
+
+            // POPULATE THE "FROM" ZONE SELECT
+            const populateFromZoneSelect = (prefix = 'All') => {
+                populateTimeZoneSelect(fromZoneEl, fromZoneEl.value, prefix);
+            };
 
             // ADD A NEW TIME ZONE SELECTOR ROW
-            function addTimeZone() {
+            const addTimeZone = () => {
                 createToZoneRow();
-            }
+            };
 
             // CONVERT THE TIME FROM THE 'FROM' ZONE TO ALL 'TO' ZONES
-            function convertTime() {
+            const convertTime = () => {
                 const inputTime = fromTimeEl.value;
                 const fromTz = fromZoneEl.value;
                 resultsEl.innerHTML = '';
@@ -198,24 +170,30 @@
 
                 // LOOP THROUGH 'TO' ZONE SELECTORS AND CONVERT TIME
                 const toSelectors = toZonesContainer.querySelectorAll('select');
+                const fragment = document.createDocumentFragment();
                 toSelectors.forEach(select => {
                     const toTz = select.value;
                     const converted = fromTime.setZone(toTz);
+
+                    // Format the time in AM/PM format (12-hour clock)
                     const resultLine = document.createElement('div');
-                    resultLine.textContent = `${fromTime.toFormat('HH:mm')} in ${fromTz} = ${converted.toFormat('HH:mm')} in ${toTz}`;
-                    resultsEl.appendChild(resultLine);
+                    resultLine.textContent = `${fromTime.toFormat('hh:mm a')} in ${fromTz} = ${converted.toFormat('hh:mm a')} in ${toTz}`;
+                    fragment.appendChild(resultLine);
                 });
-            }
+
+                resultsEl.appendChild(fragment);
+            };
 
             // INITIALIZE THE APP: LOAD TIME ZONES, SET DEFAULT ZONE, AND SET UP EVENTS
-            function init() {
+            const init = () => {
                 allZones = getAllTimeZones().sort();
-                populateTimeZoneSelect(fromZoneEl, Intl.DateTimeFormat().resolvedOptions().timeZone);
+                populateFromZoneSelect('All');
+                createFromZonePrefixLinks(); // Add prefix links to the "From" zone
                 createToZoneRow('UTC');
 
                 addZoneBtn.addEventListener('click', addTimeZone);
                 convertBtn.addEventListener('click', convertTime);
-            }
+            };
 
             init();
         })();
