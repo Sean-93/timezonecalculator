@@ -3,16 +3,18 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout
-  title=""
-  description=""
-  keywords=""
-  canonicalURL=""
+  title="Time Zone Calculator"
+  description="Pick a time zone and a time, then see what time it is in other time zones. Great for scheduling meetings, calls, or just staying in sync."
+  keywords="time zone converter, world clock, meeting scheduler, time difference, time zones, global time, time zone tool, schedule across time zones, convert time, time zone calculator"
+  canonicalURL="https://timezonecalculator.com"
   robots="index, follow"
 >
   <main class="p-6">
     <div class="max-w-3xl mx-auto">
       <header>
         <h1 class="text-center"><i class="material-icons">schedule</i><i class="material-icons">language</i><i class="material-icons">more_time</i><i class="material-icons">public</i><i class="material-icons">update</i><br/><span>Time Zone Calculator</span></h1>
+        <br/>
+        <p class="text-center">Pick a time zone and a time, then see what time it is in other time zones. Great for scheduling meetings, calls, or just staying in sync.</p>
       </header>
       <br />
       <section >
@@ -24,6 +26,7 @@ import Layout from "../layouts/Layout.astro";
           also click on the region links above the dropdown to only search
           within that region.
         </p>
+        <br/>
         <select id="fromZone" name="fromZone"></select>
         <h2>
           <label for="fromTime" class="mt-6 block">Set Time:</label>
@@ -45,6 +48,7 @@ import Layout from "../layouts/Layout.astro";
           Select the second timezone from the dropdown directly below. You can
           also sort the dropdown by region and add more time zones to compare.
         </p>
+        <br/>
         <div id="toZones"></div>
                 <button
                   id="addZoneBtn"
@@ -56,6 +60,7 @@ import Layout from "../layouts/Layout.astro";
         <section >
           <h2>Convert Time Zones:</h2>
           <p>Once you have your time zones selected, click the button below, and it will output their times relative to the time selected on the first time zone. </p>
+          <br/>
           <button
             id="convertBtn"
             class="p-4 text-green-600 hover:bg-green-600 hover:text-white block"

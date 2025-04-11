@@ -81,8 +81,12 @@ import Footer from "../components/Footer.astro";
 				@apply font-semibold;
 			}
 
-			a {
-				@apply text-blue-600 font-medium hover:underline underline-offset-4 break-words inline-block;
+			main a {
+				@apply text-blue-600 font-medium hover:underline underline-offset-2 break-words inline-block;
+			}
+
+			a > span {
+				@apply hover:underline underline-offset-2;
 			}
 
 			select {
