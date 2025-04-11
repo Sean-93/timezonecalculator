@@ -9,34 +9,55 @@ import Layout from "../layouts/Layout.astro";
   canonicalURL=""
   robots="index, follow"
 >
-  <main class="p-4">
-    <div class="max-w-xl mx-auto">
+  <main class="p-8">
+    <div class="max-w-3xl mx-auto">
       <section>
-        <h1>Time Zone Calculator</h1>
+        <h1 class="text-center"><i class="material-icons">schedule</i><i class="material-icons">language</i><i class="material-icons">more_time</i><i class="material-icons">public</i><i class="material-icons">update</i><br/><span>Time Zone Calculator</span></h1>
         <br />
-        <label for="fromZone">From Time Zone:</label>
+        <h2>
+          <label for="fromZone">From Time Zone:</label>
+        </h2>
+        <p>
+          Select the first timezone from the dropdown directly below. You can
+          also click on the region links above the dropdown to only search
+          within that region.
+        </p>
         <select id="fromZone" name="fromZone"></select>
-          <label for="fromTime" class="mt-6 block">Time:</label>
-          <input type="time" id="fromTime" name="fromTime" />
+        <h2>
+          <label for="fromTime" class="mt-6 block">Set Time:</label>
+        </h2>
+        <p>Select the time you want to set for the first time zone.</p>
+        <input
+          type="time"
+          id="fromTime"
+          name="fromTime"
+          class="rounded-xl text-xl"
+        />
       </section>
       <br />
       <section>
-        <label>To Time Zones:</label>
+        <h2>
+          <label>To Time Zones:</label>
+        </h2>
+        <p>
+          Select the second timezone from the dropdown directly below. You can
+          also sort the dropdown by region and add more time zones to compare.
+        </p>
         <div id="toZones"></div>
       </section>
-      <br />
-      <div>
+
         <button
           id="addZoneBtn"
-          class="p-4 text-blue-600 hover:bg-blue-600 hover:text-white"
+          class="p-4 text-blue-600 hover:bg-blue-600 hover:text-white block"
           >+ Add a Time Zone</button
         >
+        <br/>
         <button
           id="convertBtn"
-          class="p-4 text-green-600 hover:bg-green-600 hover:text-white"
+          class="p-4 text-green-600 hover:bg-green-600 hover:text-white block"
           >Convert Time Zones</button
         >
-      </div>
+  
       <br />
       <div id="results"></div>
     </div>

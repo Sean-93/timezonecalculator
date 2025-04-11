@@ -62,10 +62,15 @@ import Footer from "../components/Footer.astro";
 
 			html {
 				font-family: "Open Sans", sans-serif;
+				@apply text-balance;
 			}
 
 			h1 {
 				@apply text-5xl tracking-tight font-black; 
+			}
+
+			h2 {
+				@apply text-3xl tracking-tight font-semibold;
 			}
 
 			p, a {
@@ -77,11 +82,11 @@ import Footer from "../components/Footer.astro";
 			}
 
 			a {
-				@apply text-blue-600 font-medium hover:underline underline-offset-4 break-words;
+				@apply text-blue-600 font-medium hover:underline underline-offset-4 break-words inline-block;
 			}
 
 			select {
-				@apply w-full hover:cursor-pointer border;
+				@apply w-full max-w-prose hover:cursor-pointer border;
 			}
 
 			input {
