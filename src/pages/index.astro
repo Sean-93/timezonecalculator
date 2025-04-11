@@ -9,11 +9,13 @@ import Layout from "../layouts/Layout.astro";
   canonicalURL=""
   robots="index, follow"
 >
-  <main class="p-8">
+  <main class="p-6">
     <div class="max-w-3xl mx-auto">
-      <section>
+      <header>
         <h1 class="text-center"><i class="material-icons">schedule</i><i class="material-icons">language</i><i class="material-icons">more_time</i><i class="material-icons">public</i><i class="material-icons">update</i><br/><span>Time Zone Calculator</span></h1>
-        <br />
+      </header>
+      <br />
+      <section >
         <h2>
           <label for="fromZone">From Time Zone:</label>
         </h2>
@@ -35,7 +37,7 @@ import Layout from "../layouts/Layout.astro";
         />
       </section>
       <br />
-      <section>
+      <section >
         <h2>
           <label>To Time Zones:</label>
         </h2>
@@ -44,22 +46,25 @@ import Layout from "../layouts/Layout.astro";
           also sort the dropdown by region and add more time zones to compare.
         </p>
         <div id="toZones"></div>
+                <button
+                  id="addZoneBtn"
+                  class="p-4 text-blue-600 hover:bg-blue-600 hover:text-white block"
+                  >+ Add a Time Zone</button
+                >
       </section>
-
-        <button
-          id="addZoneBtn"
-          class="p-4 text-blue-600 hover:bg-blue-600 hover:text-white block"
-          >+ Add a Time Zone</button
-        >
         <br/>
-        <button
-          id="convertBtn"
-          class="p-4 text-green-600 hover:bg-green-600 hover:text-white block"
-          >Convert Time Zones</button
-        >
-  
-      <br />
-      <div id="results"></div>
+        <section >
+          <h2>Convert Time Zones:</h2>
+          <p>Once you have your time zones selected, click the button below, and it will output their times relative to the time selected on the first time zone. </p>
+          <button
+            id="convertBtn"
+            class="p-4 text-green-600 hover:bg-green-600 hover:text-white block"
+            >Convert Time Zones</button
+          >
+    
+        <br />
+        <div id="results" class="border p-2 flex flex-col space-y-6 font-semibold text-xl"><i class="text-base font-normal">This is where the output of the time zone calculations go.</i></div>
+      </section>
     </div>
   </main>
 </Layout>
@@ -143,7 +148,7 @@ import Layout from "../layouts/Layout.astro";
       const link = document.createElement("a");
       link.href = "#";
       link.textContent = prefix;
-      link.style.marginRight = "8px";
+      link.style.marginRight = "16px";
       link.addEventListener("click", (event: MouseEvent) => {
         event.preventDefault();
         populateTimeZoneSelect(select, select.value, prefix);
@@ -200,7 +205,7 @@ import Layout from "../layouts/Layout.astro";
       const link = document.createElement("a");
       link.href = "#";
       link.textContent = prefix;
-      link.style.marginRight = "8px";
+      link.style.marginRight = "16px";
       link.addEventListener("click", (event: MouseEvent) => {
         event.preventDefault();
         populateFromZoneSelect(prefix);
