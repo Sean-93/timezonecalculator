@@ -12,12 +12,22 @@ import Layout from "../layouts/Layout.astro";
   <main class="p-6">
     <div class="max-w-3xl mx-auto">
       <header>
-        <h1 class="text-center"><i class="material-icons">schedule</i><i class="material-icons">language</i><i class="material-icons">more_time</i><i class="material-icons">public</i><i class="material-icons">update</i><br/><span>Time Zone Calculator</span></h1>
-        <br/>
-        <p class="text-center">Pick a time zone and a time, then see what time it is in other time zones. Great for scheduling meetings, calls, or just staying in sync.</p>
+        <h1 class="text-center">
+          <i class="material-icons">schedule</i><i class="material-icons"
+            >language</i
+          ><i class="material-icons">more_time</i><i class="material-icons"
+            >public</i
+          ><i class="material-icons">update</i><br /><span
+            >Time Zone Calculator</span>
+        </h1>
+        <br />
+        <p class="text-center">
+          Pick a time zone and a time, then see what time it is in other time
+          zones. Great for scheduling meetings, calls, or just staying in sync.
+        </p>
       </header>
       <br />
-      <section >
+      <section>
         <h2>
           <label for="fromZone">From Time Zone:</label>
         </h2>
@@ -26,7 +36,7 @@ import Layout from "../layouts/Layout.astro";
           also click on the region links above the dropdown to only search
           within that region.
         </p>
-        <br/>
+        <br />
         <select id="fromZone" name="fromZone"></select>
         <h2>
           <label for="fromTime" class="mt-6 block">Set Time:</label>
@@ -40,7 +50,7 @@ import Layout from "../layouts/Layout.astro";
         />
       </section>
       <br />
-      <section >
+      <section>
         <h2>
           <label>To Time Zones:</label>
         </h2>
@@ -48,27 +58,37 @@ import Layout from "../layouts/Layout.astro";
           Select the second timezone from the dropdown directly below. You can
           also sort the dropdown by region and add more time zones to compare.
         </p>
-        <br/>
-        <div id="toZones"></div>
-                <button
-                  id="addZoneBtn"
-                  class="p-4 text-blue-600 hover:bg-blue-600 hover:text-white block"
-                  >+ Add a Time Zone</button
-                >
-      </section>
-        <br/>
-        <section >
-          <h2>Convert Time Zones:</h2>
-          <p>Once you have your time zones selected, click the button below, and it will output their times relative to the time selected on the first time zone. </p>
-          <br/>
-          <button
-            id="convertBtn"
-            class="p-4 text-green-600 hover:bg-green-600 hover:text-white block"
-            >Convert Time Zones</button
-          >
-    
         <br />
-        <div id="results" class="border p-2 flex flex-col space-y-6 font-semibold text-xl"><i class="text-base font-normal">This is where the output of the time zone calculations go.</i></div>
+        <div id="toZones"></div>
+        <button
+          id="addZoneBtn"
+          class="p-4 text-blue-600 hover:bg-blue-600 hover:text-white block"
+          >+ Add a Time Zone</button
+        >
+      </section>
+      <br />
+      <section>
+        <h2>Calculate Time Zones:</h2>
+        <p>
+          Once you have your time zones selected, click the button below, and it
+          will output their times relative to the time selected on the first
+          time zone.
+        </p>
+        <br />
+        <button
+          id="convertBtn"
+          class="p-4 text-green-600 hover:bg-green-600 hover:text-white block"
+          >Calculate Time Zones</button
+        >
+
+        <br />
+        <div
+          id="results"
+          class="border p-2 flex flex-col space-y-6 font-semibold text-xl"
+        >
+          <i class="text-base font-normal"
+            >This is where the output of the time zone calculations go.</i>
+        </div>
       </section>
     </div>
   </main>
@@ -77,220 +97,289 @@ import Layout from "../layouts/Layout.astro";
 <style></style>
 
 <script>
-  "use strict";
+"use strict";
 
-  // Import Luxon types (assuming you installed it via npm in a TS project)
-  import { DateTime } from "luxon";
+// Import Luxon types (assuming you installed it via npm in a TS project)
+import { DateTime } from "luxon";
 
-  // Grabbing all DOM elements used
-  const fromZoneEl = document.getElementById("fromZone") as HTMLSelectElement;
-  const fromTimeEl = document.getElementById("fromTime") as HTMLInputElement;
-  const toZonesContainer = document.getElementById("toZones") as HTMLElement;
-  const resultsEl = document.getElementById("results") as HTMLElement;
-  const addZoneBtn = document.getElementById("addZoneBtn") as HTMLButtonElement;
-  const convertBtn = document.getElementById("convertBtn") as HTMLButtonElement;
+// Grabbing all DOM elements used
+const fromZoneEl = document.getElementById("fromZone") as HTMLSelectElement;
+const fromTimeEl = document.getElementById("fromTime") as HTMLInputElement;
+const toZonesContainer = document.getElementById("toZones") as HTMLElement;
+const resultsEl = document.getElementById("results") as HTMLElement;
+const addZoneBtn = document.getElementById("addZoneBtn") as HTMLButtonElement;
+const convertBtn = document.getElementById("convertBtn") as HTMLButtonElement;
 
-  let allZones: string[] = [];
+let allZones: string[] = [];
 
-  // GET ALL SUPPORTED TIME ZONES, WITH A FALLBACK MESSAGE IF NOT SUPPORTED
-  const getAllTimeZones = (): string[] => {
-    try {
-      return Intl.supportedValuesOf("timeZone");
-    } catch {
-      return ["Sorry!  Cannot connect to time zones."];
+// GET ALL SUPPORTED TIME ZONES, WITH A FALLBACK MESSAGE IF NOT SUPPORTED
+const getAllTimeZones = (): string[] => {
+  try {
+    return Intl.supportedValuesOf("timeZone");
+  } catch {
+    return ["Sorry! Cannot connect to time zones."];
+  }
+};
+
+// FILTER TIME ZONES BY PREFIX
+const filterZonesByPrefix = (prefix: string): string[] => {
+  if (prefix === "All") return allZones;
+  return allZones.filter((zone) => zone.startsWith(prefix));
+};
+
+// POPULATE TIME ZONE SELECT DROPDOWN
+const populateTimeZoneSelect = (
+  selectEl: HTMLSelectElement,
+  defaultZone = "UTC",
+  prefix = "All"
+): void => {
+  const currentValue = selectEl.value;
+  const filteredZones = filterZonesByPrefix(prefix).sort();
+
+  selectEl.innerHTML = "";
+
+  const fragment = document.createDocumentFragment();
+
+  // ADD REGION NAME AS DISABLED PLACEHOLDER
+  const placeholder = document.createElement("option");
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  placeholder.textContent = prefix;
+  fragment.appendChild(placeholder);
+
+  // ADD TIME ZONE OPTIONS
+  filteredZones.forEach((zone) => {
+    const opt = document.createElement("option");
+    opt.value = zone;
+    opt.textContent = zone;
+    fragment.appendChild(opt);
+  });
+
+  selectEl.appendChild(fragment);
+
+  // RESET SELECTION IF PREVIOUS VALUE IS STILL VALID
+  if (filteredZones.includes(currentValue)) {
+    selectEl.value = currentValue;
+  }
+};
+
+// CREATE A ROW FOR ADDING TIME ZONE SELECTORS
+const createToZoneRow = (defaultZone = "UTC"): void => {
+  const container = document.createElement("div");
+  const select = document.createElement("select");
+  const prefixLinks = document.createElement("div");
+
+  // Create prefix links for "To Time Zones"
+  const prefixes = [
+    "All",
+    "America",
+    "Europe",
+    "Asia",
+    "Africa",
+    "Pacific",
+    "Australia",
+    "Antarctica",
+  ];
+  prefixes.forEach((prefix) => {
+    const link = document.createElement("a");
+    link.href = "#";
+    link.textContent = prefix;
+    link.style.marginRight = "16px";
+    link.addEventListener("click", (event: MouseEvent) => {
+      event.preventDefault();
+      populateTimeZoneSelect(select, select.value, prefix);
+    });
+    prefixLinks.appendChild(link);
+  });
+
+  container.appendChild(prefixLinks);
+  populateTimeZoneSelect(select, defaultZone);
+
+  const removeBtn = document.createElement("button");
+  removeBtn.type = "button";
+  removeBtn.textContent = "- Remove Time Zone";
+
+  // Add Tailwind styling
+  removeBtn.classList.add(
+    "py-2",
+    "px-4",
+    "my-6",
+    "bg-white",
+    "text-red-600",
+    "hover:bg-red-600",
+    "hover:text-white"
+  );
+
+  removeBtn.addEventListener("click", () => {
+    if (toZonesContainer.childElementCount > 1) {
+      container.remove();
+    } else {
+      alert("At least one time zone must remain.");
     }
-  };
+  });
 
-  // FILTER TIME ZONES BY PREFIX
-  const filterZonesByPrefix = (prefix: string): string[] => {
-    if (prefix === "All") return allZones;
-    return allZones.filter((zone) => zone.startsWith(prefix));
-  };
+  container.appendChild(select);
+  container.appendChild(removeBtn);
+  toZonesContainer.appendChild(container);
+};
 
-  // POPULATE TIME ZONE SELECT DROPDOWN
-  const populateTimeZoneSelect = (
-    selectEl: HTMLSelectElement,
-    defaultZone = "UTC",
-    prefix = "All"
-  ): void => {
-    const currentValue = selectEl.value;
-    const filteredZones = filterZonesByPrefix(prefix).sort();
+// CREATE PREFIX LINKS FOR "FROM" ZONE
+const createFromZonePrefixLinks = (): void => {
+  const prefixLinks = document.createElement("div");
+  const prefixes = [
+    "All",
+    "America",
+    "Europe",
+    "Asia",
+    "Africa",
+    "Pacific",
+    "Australia",
+    "Antarctica",
+  ];
 
-    selectEl.innerHTML = "";
-    const fragment = document.createDocumentFragment();
-
-    filteredZones.forEach((zone) => {
-      const opt = document.createElement("option");
-      opt.value = zone;
-      opt.textContent = zone;
-      fragment.appendChild(opt);
+  prefixes.forEach((prefix) => {
+    const link = document.createElement("a");
+    link.href = "#";
+    link.textContent = prefix;
+    link.style.marginRight = "16px";
+    link.addEventListener("click", (event: MouseEvent) => {
+      event.preventDefault();
+      populateFromZoneSelect(prefix);
     });
+    prefixLinks.appendChild(link);
+  });
 
-    selectEl.appendChild(fragment);
-    selectEl.value = filteredZones.includes(currentValue)
-      ? currentValue
-      : defaultZone;
-  };
+  fromZoneEl.parentNode?.insertBefore(prefixLinks, fromZoneEl);
+};
 
-  // CREATE A ROW FOR ADDING TIME ZONE SELECTORS
-  const createToZoneRow = (defaultZone = "UTC"): void => {
-    const container = document.createElement("div");
-    const select = document.createElement("select");
-    const prefixLinks = document.createElement("div");
+// POPULATE THE "FROM" ZONE SELECT
+const populateFromZoneSelect = (prefix = "All"): void => {
+  populateTimeZoneSelect(fromZoneEl, fromZoneEl.value, prefix);
+};
 
-    // Create prefix links for "To Time Zones"
-    const prefixes = [
-      "All",
-      "America",
-      "Europe",
-      "Asia",
-      "Africa",
-      "Pacific",
-      "Australia",
-      "Antarctica",
-    ];
-    prefixes.forEach((prefix) => {
-      const link = document.createElement("a");
-      link.href = "#";
-      link.textContent = prefix;
-      link.style.marginRight = "16px";
-      link.addEventListener("click", (event: MouseEvent) => {
-        event.preventDefault();
-        populateTimeZoneSelect(select, select.value, prefix);
-      });
-      prefixLinks.appendChild(link);
-    });
+// ADD A NEW TIME ZONE SELECTOR ROW
+const addTimeZone = (): void => {
+  createToZoneRow();
+};
 
-    container.appendChild(prefixLinks);
-    populateTimeZoneSelect(select, defaultZone);
+// CONVERT THE TIME FROM THE 'FROM' ZONE TO ALL 'TO' ZONES
+const convertTime = (): void => {
+  const inputTime = fromTimeEl.value;
+  const fromTz = fromZoneEl.value;
+  resultsEl.innerHTML = "";
 
-    const removeBtn = document.createElement("button");
-    removeBtn.type = "button";
-    removeBtn.textContent = "- Remove Time Zone";
+  // RESET ERROR HIGHLIGHTS
+  fromZoneEl.classList.remove("ring-2", "ring-red-600");
+  fromTimeEl.classList.remove("ring-2", "ring-red-600");
+  toZonesContainer.querySelectorAll("select").forEach(select => {
+    select.classList.remove("ring-2", "ring-red-600");
+  });
 
-    // Add Tailwind styling
-    removeBtn.classList.add(
-      "py-2",
-      "px-4",
-      "my-6",
-      "bg-white",
-      "text-red-600",
-      "hover:bg-red-600",
-      "hover:text-white"
-    );
+  let errorMessages: string[] = [];
 
-    removeBtn.addEventListener("click", () => {
-      if (toZonesContainer.childElementCount > 1) {
-        container.remove();
-      } else {
-        alert("At least one time zone must remain.");
+  // VALIDATE THE "FROM TIME ZONE"
+  if (!fromTz || !allZones.includes(fromTz)) {
+    errorMessages.push("Invalid from time zone");
+    fromZoneEl.classList.add("ring-2", "ring-red-600");
+  }
+
+  // VALIDATE THE "FROM TIME"
+  const [hour, minute] = inputTime.split(":").map(Number);
+  if (!inputTime || !/^\d{2}:\d{2}$/.test(inputTime) || hour > 23 || minute > 59) {
+    errorMessages.push("Invalid from time");
+    fromTimeEl.classList.add("ring-2", "ring-red-600");
+  }
+
+  // CREATE A 'FROM' TIME ZONE DATE OBJECT
+  const now = DateTime.now().setZone(fromTz);
+  const fromTime = DateTime.fromObject(
+    {
+      year: now.year,
+      month: now.month,
+      day: now.day,
+      hour,
+      minute,
+    },
+    { zone: fromTz }
+  );
+
+  // VALIDATE "TO" ZONE SELECTORS
+  const toSelectors = toZonesContainer.querySelectorAll("select");
+
+  toSelectors.forEach((select) => {
+    const toTz = (select as HTMLSelectElement).value;
+    if (!toTz || !allZones.includes(toTz)) {
+      errorMessages.push("Invalid to time zone");
+      select.classList.add("ring-2", "ring-red-600");
+    }
+  });
+
+  // IF THERE ARE ERRORS, DISPLAY A POPUP ERROR MESSAGE AND RETURN
+  if (errorMessages.length > 0) {
+    alert("Please correct the following errors: \n" + errorMessages.join("\n"));
+    return;
+  }
+
+  // IF NO ERRORS, PROCEED TO CONVERT THE TIME
+  const fragment = document.createDocumentFragment();
+
+  // CREATE HEADER TO DISPLAY FROM TIME AND ZONE
+  const header = document.createElement("div");
+  header.textContent = `${fromTime.toFormat("hh:mm a")} in ${fromTz} is:`;
+  fragment.appendChild(header);
+
+  // LOOP THROUGH 'TO' ZONE SELECTORS AND CONVERT TIME
+  toSelectors.forEach((select) => {
+    const toTz = (select as HTMLSelectElement).value;
+    const converted = fromTime.setZone(toTz);
+
+    // DISPLAY THE CONVERTED TIME FOR EACH 'TO' ZONE
+    const line = document.createElement("div");
+    line.textContent = `- ${converted.toFormat("hh:mm a")} in ${toTz}`;
+    fragment.appendChild(line);
+  });
+
+  // APPEND ALL RESULTS TO THE RESULTS CONTAINER
+  resultsEl.appendChild(fragment);
+};
+
+// REMOVE RING CLASSES ON VALID SELECTION
+const removeRingOnValidInput = (): void => {
+  fromZoneEl.addEventListener("change", () => {
+    if (allZones.includes(fromZoneEl.value)) {
+      fromZoneEl.classList.remove("ring-2", "ring-red-600");
+    }
+  });
+
+  fromTimeEl.addEventListener("input", () => {
+    const [hour, minute] = fromTimeEl.value.split(":").map(Number);
+    if (/^\d{2}:\d{2}$/.test(fromTimeEl.value) && hour <= 23 && minute <= 59) {
+      fromTimeEl.classList.remove("ring-2", "ring-red-600");
+    }
+  });
+
+  toZonesContainer.querySelectorAll("select").forEach((select) => {
+    select.addEventListener("change", () => {
+      if (allZones.includes(select.value)) {
+        select.classList.remove("ring-2", "ring-red-600");
       }
     });
+  });
+};
 
-    container.appendChild(select);
-    container.appendChild(removeBtn);
-    toZonesContainer.appendChild(container);
-  };
+// INITIALIZE THE APP: LOAD TIME ZONES, SET DEFAULT ZONE, AND SET UP EVENTS
+const init = (): void => {
+  allZones = getAllTimeZones().sort();
+  populateFromZoneSelect("All");
+  createFromZonePrefixLinks(); // Add prefix links to the "From" zone
+  createToZoneRow("UTC");
 
-  // CREATE PREFIX LINKS FOR "FROM" ZONE
-  const createFromZonePrefixLinks = (): void => {
-    const prefixLinks = document.createElement("div");
-    const prefixes = [
-      "All",
-      "America",
-      "Europe",
-      "Asia",
-      "Africa",
-      "Pacific",
-      "Australia",
-      "Antarctica",
-    ];
+  addZoneBtn.addEventListener("click", addTimeZone);
+  convertBtn.addEventListener("click", convertTime);
 
-    prefixes.forEach((prefix) => {
-      const link = document.createElement("a");
-      link.href = "#";
-      link.textContent = prefix;
-      link.style.marginRight = "16px";
-      link.addEventListener("click", (event: MouseEvent) => {
-        event.preventDefault();
-        populateFromZoneSelect(prefix);
-      });
-      prefixLinks.appendChild(link);
-    });
+  removeRingOnValidInput(); // Remove rings on valid inputs
+};
 
-    fromZoneEl.parentNode?.insertBefore(prefixLinks, fromZoneEl);
-  };
+document.addEventListener("DOMContentLoaded", init);
 
-  // POPULATE THE "FROM" ZONE SELECT
-  const populateFromZoneSelect = (prefix = "All"): void => {
-    populateTimeZoneSelect(fromZoneEl, fromZoneEl.value, prefix);
-  };
-
-  // ADD A NEW TIME ZONE SELECTOR ROW
-  const addTimeZone = (): void => {
-    createToZoneRow();
-  };
-
-  // CONVERT THE TIME FROM THE 'FROM' ZONE TO ALL 'TO' ZONES
-  const convertTime = (): void => {
-    const inputTime = fromTimeEl.value;
-    const fromTz = fromZoneEl.value;
-    resultsEl.innerHTML = "";
-
-    // VALIDATE THE INPUT TIME FORMAT
-    if (!inputTime || !/^\d{2}:\d{2}$/.test(inputTime)) {
-      resultsEl.textContent = "Please enter a valid time.";
-      return;
-    }
-
-    const [hour, minute] = inputTime.split(":").map(Number);
-    if (hour > 23 || minute > 59) {
-      resultsEl.textContent = "Invalid time input.";
-      return;
-    }
-
-    // CREATE A 'FROM' TIME ZONE DATE OBJECT
-    const now = DateTime.now().setZone(fromTz);
-    const fromTime = DateTime.fromObject(
-      {
-        year: now.year,
-        month: now.month,
-        day: now.day,
-        hour,
-        minute,
-      },
-      { zone: fromTz }
-    );
-
-    // LOOP THROUGH 'TO' ZONE SELECTORS AND CONVERT TIME
-    const toSelectors = toZonesContainer.querySelectorAll("select");
-    const fragment = document.createDocumentFragment();
-
-    toSelectors.forEach((select) => {
-      const toTz = (select as HTMLSelectElement).value;
-      const converted = fromTime.setZone(toTz);
-
-      // Format the time in AM/PM format (12-hour clock)
-      const resultLine = document.createElement("div");
-      resultLine.textContent = `${fromTime.toFormat(
-        "hh:mm a"
-      )} in ${fromTz} = ${converted.toFormat("hh:mm a")} in ${toTz}`;
-      fragment.appendChild(resultLine);
-    });
-
-    resultsEl.appendChild(fragment);
-  };
-
-  // INITIALIZE THE APP: LOAD TIME ZONES, SET DEFAULT ZONE, AND SET UP EVENTS
-  const init = (): void => {
-    allZones = getAllTimeZones().sort();
-    populateFromZoneSelect("All");
-    createFromZonePrefixLinks(); // Add prefix links to the "From" zone
-    createToZoneRow("UTC");
-
-    addZoneBtn.addEventListener("click", addTimeZone);
-    convertBtn.addEventListener("click", convertTime);
-  };
-
-  document.addEventListener("DOMContentLoaded", init);
 </script>
