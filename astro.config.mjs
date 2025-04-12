@@ -5,7 +5,7 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://astro-simple-starter.netlify.app/",
+  site: "https://timezonecalculator.app/",
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],

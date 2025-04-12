@@ -6,8 +6,8 @@ import Layout from "../layouts/Layout.astro";
   title="About Time Zone Calculator"
   description="Time Zone Calculator - a simple tool to convert times between time zones. Fast, accurate, and easy to use."
   keywords=""
-  canonicalURL="https://timezonecalculator.com/about"
-  robots="noindex, follow"
+  canonicalURL="https://timezonecalculator.app/about"
+  robots="index, follow"
 >
   <main class="p-6">
     <div class="max-w-3xl mx-auto text-center">
@@ -39,7 +39,7 @@ import Layout from "../layouts/Layout.astro";
       <p>Below are instructions on how to use the time zone calculator tool on this website.</p>
       <br/>
       <ol class="text-left border border-dashed p-6">
-        <li>1. Navigate to our homepage at <a href="/" >https://timezonecalculator.com</a>.</li>
+        <li>1. Navigate to our homepage at <a href="/" >https://timezonecalculator.app</a>.</li>
         <br/>
         <li>2. Select a "From" time zone.  This is the time zone you want to compare to others.</li>
         <br/>
@@ -72,4 +72,23 @@ import Layout from "../layouts/Layout.astro";
   </main>
 </Layout>
 
-<style></style>
+ <!-- JSON-LD SCHEMA-->
+ <script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "About Time Zone Calculator",
+    "headline": "About Time Zone Calculator",
+    "description": "Time Zone Calculator - a simple tool to convert times between time zones. Fast, accurate, and easy to use.",
+    "keywords": "time zone calculator, world clock, meeting scheduler, time difference, time zones, global time, time zone tool, schedule across time zones, convert time, time zone calculator",
+    "author": { "@type": "Person", "name": "Sean Rooney" },
+    "publisher": { "@type": "Person", "name": "Sean Rooney" },
+    "datePublished": "2025-04-11T08:00:00+00:00",
+    "url": "https://timezonecalculator.app/about",
+    "mainEntityOfPage": "https://timezonecalculator.app/about",
+    "robots": "index, follow",
+    "operatingSystem": "Web-based",
+    "applicationCategory": "Utility",
+    "softwareVersion": "1.0"
+  }
+</script>

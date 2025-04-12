@@ -6,7 +6,7 @@ import Layout from "../layouts/Layout.astro";
   title="Time Zone Calculator"
   description="Pick a time zone and a time, then see what time it is in other time zones. Great for scheduling meetings, calls, or just staying in sync."
   keywords="time zone calculator, world clock, meeting scheduler, time difference, time zones, global time, time zone tool, schedule across time zones, convert time, time zone calculator"
-  canonicalURL="https://timezonecalculator.com"
+  canonicalURL="https://timezonecalculator.app"
   robots="index, follow"
 >
   <main class="p-6">
@@ -95,9 +95,26 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </main>
 </Layout>
-
-<style></style>
-
+    <!-- JSON-LD SCHEMA-->
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Time Zone Calculator",
+        "headline": "Time Zone Calculator",
+        "description": "Pick a time zone and a time, then see what time it is in other time zones. Great for scheduling meetings, calls, or just staying in sync.",
+        "keywords": "time zone calculator, world clock, meeting scheduler, time difference, time zones, global time, time zone tool, schedule across time zones, convert time, time zone calculator",
+        "author": { "@type": "Person", "name": "Sean Rooney" },
+        "publisher": { "@type": "Person", "name": "Sean Rooney" },
+        "datePublished": "2025-04-11T08:00:00+00:00",
+        "url": "https://timezonecalculator.app",
+        "mainEntityOfPage": "https://timezonecalculator.app",
+        "robots": "index, follow",
+        "operatingSystem": "Web-based",
+        "applicationCategory": "Utility",
+        "softwareVersion": "1.0"
+      }
+    </script>
 <script>
 "use strict";
 
