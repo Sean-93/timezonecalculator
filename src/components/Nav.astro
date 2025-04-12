@@ -1,10 +1,41 @@
 ---
 ---
 
-<nav class="p-4 bg-blue-600 text-white lg:flex justify-between">
+<!-- MOBILE NAV -->
+<div class="md:hidden relative">
+  <div
+    tabindex="0"
+    role="button"
+    class="text-center text-blue-600 bg-white p-2 flex justify-end space-x-1 font-semibold"
+    id="menuButton"
+  >
+    <span>Site Menu</span>
+    <i class="material-icons text-center" id="menuIcon">menu</i>
+  </div>
+  <ul
+    class="dropdown-content bg-white z-[1] p-6 hidden absolute w-full space-y-8 border-2 border-blue-600 rounded-xl text-blue-600"
+  >
+    <li>
+      <a href="/" class="flex items-center space-x-1">
+        <i class="material-icons">schedule</i><span>Home</span>
+      </a>
+    </li>
+    <li>
+      <a href="/about" class="flex items-center space-x-1">
+        <i class="material-icons">info</i><span>About</span>
+      </a>
+    </li>
+    <li>
+      <a href="/privacy-policy" class="flex items-center space-x-1">
+        <i class="material-icons">article</i><span>Privacy Policy</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<nav class="p-6 bg-blue-600 text-white md:flex justify-between">
   <a
     href="/"
-    class="text-white lg:flex items-center"
+    class="text-white md:flex items-center"
     title="An online time zone calculator tool"
   >
     <span class="flex items-center hover:!no-underline">
@@ -14,11 +45,12 @@
         >public</i
       ><i class="material-icons">update</i>
     </span>
-    <span class="hidden lg:inline">&nbsp;</span>
+    <span class="hidden md:inline">&nbsp;</span>
 
     <span class="text-xl">Time Zone Calculator</span>
   </a>
-  <span>
+  <!-- DESKTOP NAV -->
+  <span class="hidden md:inline">
     <ul class="flex items-center space-x-8">
       <li>
         <a href="/" class="flex items-center space-x-1"
@@ -39,3 +71,30 @@
   </span>
 </nav>
 <style></style>
+<script>
+  // MAKES SURE THAT THE MOBILE DROPDOWN CAN CLICK OFF OR CLICK ON THE BUTTON TO CLOSE
+  // ALSO MAKES SURE THAT THE 'menu' ICON IS CHANGED TO A 'close' ICON WHEN APPROPRIATE
+  const menuButton = document.getElementById("menuButton");
+  const dropdownContent = document.querySelector(".dropdown-content");
+  const menuIcon = document.getElementById("menuIcon");
+
+  // Toggle dropdown on click and change icon
+  menuButton.addEventListener("click", (e) => {
+    e.stopPropagation(); // Prevent closing immediately
+    dropdownContent.classList.toggle("hidden");
+    menuIcon.textContent = dropdownContent.classList.contains("hidden")
+      ? "menu"
+      : "close";
+  });
+
+  // Close dropdown when clicking outside and reset icon
+  document.addEventListener("click", (e) => {
+    if (
+      !menuButton.contains(e.target as Node) &&
+      !dropdownContent.contains(e.target as Node)
+    ) {
+      dropdownContent.classList.add("hidden");
+      menuIcon.textContent = "menu"; // Reset to 'menu' when closed
+    }
+  });
+</script>
