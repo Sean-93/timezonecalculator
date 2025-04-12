@@ -82,12 +82,14 @@ import Layout from "../layouts/Layout.astro";
         >
 
         <br />
+        <h2>Output:</h2>
+        <p>This is where the output of the time zone calculations go.</p>
         <div
           id="results"
           class="border p-2 flex flex-col space-y-6 font-semibold text-xl"
         >
-          <i class="text-base font-normal"
-            >This is where the output of the time zone calculations go.</i>
+          <p class="text-base font-normal"
+            >...</p>
         </div>
       </section>
     </div>
@@ -221,6 +223,13 @@ const createToZoneRow = (defaultZone = "UTC"): void => {
   container.appendChild(select);
   container.appendChild(removeBtn);
   toZonesContainer.appendChild(container);
+
+  // Add event listener to remove error ring when valid selection is made
+  select.addEventListener("change", () => {
+    if (allZones.includes(select.value)) {
+      select.classList.remove("ring-2", "ring-red-600");
+    }
+  });
 };
 
 // CREATE PREFIX LINKS FOR "FROM" ZONE
@@ -316,6 +325,17 @@ const convertTime = (): void => {
 
   // IF THERE ARE ERRORS, DISPLAY A POPUP ERROR MESSAGE AND RETURN
   if (errorMessages.length > 0) {
+    // Display the error messages in the results area as well
+    const errorMessageDiv = document.createElement("div");
+    errorMessageDiv.textContent = "Please correct the following errors:";
+    resultsEl.appendChild(errorMessageDiv);
+
+    errorMessages.forEach((msg) => {
+      const errorDiv = document.createElement("div");
+      errorDiv.textContent = `- ${msg}`;
+      resultsEl.appendChild(errorDiv);
+    });
+
     alert("Please correct the following errors: \n" + errorMessages.join("\n"));
     return;
   }
