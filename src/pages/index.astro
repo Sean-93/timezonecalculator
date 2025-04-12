@@ -411,6 +411,12 @@ const init = (): void => {
   createFromZonePrefixLinks(); // Add prefix links to the "From" zone
   createToZoneRow("UTC");
 
+  // Set the default time input to the current time in HH:mm format
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minutes = String(now.getMinutes()).padStart(2, "0");
+  fromTimeEl.value = `${hours}:${minutes}`;
+
   addZoneBtn.addEventListener("click", addTimeZone);
   convertBtn.addEventListener("click", convertTime);
 
