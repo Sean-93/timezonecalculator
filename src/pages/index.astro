@@ -23,7 +23,7 @@ import Layout from "../layouts/Layout.astro";
         <br />
         <p class="text-center">
           Pick a time zone and a time, then see what time it is in other time
-          zones. Great for scheduling meetings, calls, or just staying in sync.
+          zones. Great for scheduling meetings, timing long-distance calls, planning travel, or just staying in sync.
         </p>
       </header>
       <br />
@@ -32,16 +32,14 @@ import Layout from "../layouts/Layout.astro";
           <label for="fromZone">From Time Zone:</label>
         </h2>
         <p>
-          Select the first timezone from the dropdown directly below. You can
-          also click on the region links above the dropdown to only search
-          within that region.
+          Select the first timezone below.
         </p>
         <br />
         <select id="fromZone" name="fromZone"></select>
         <h2>
           <label for="fromTime" class="mt-6 block">Set Time:</label>
         </h2>
-        <p>Select the time you want to set for the first time zone.</p>
+        <p>Select the time you want to set for this time zone.</p>
         <input
           type="time"
           id="fromTime"
@@ -55,8 +53,7 @@ import Layout from "../layouts/Layout.astro";
           <label>To Time Zones:</label>
         </h2>
         <p>
-          Select the second timezone from the dropdown directly below. You can
-          also sort the dropdown by region and add more time zones to compare.
+          Select the time zone or time zones to compare.
         </p>
         <br />
         <div id="toZones"></div>
@@ -70,9 +67,7 @@ import Layout from "../layouts/Layout.astro";
       <section>
         <h2>Calculate Time Zones:</h2>
         <p>
-          Once you have your time zones selected, click the button below, and it
-          will output their times relative to the time selected on the first
-          time zone.
+          After selecting time zones, click below to see their times relative to the first.
         </p>
         <br />
         <button
@@ -83,7 +78,7 @@ import Layout from "../layouts/Layout.astro";
 
         <br />
         <h2>Output:</h2>
-        <p>This is where the output of the time zone calculations go.</p>
+        <p>View the time zone calculation output here.</p>
         <div
           id="results"
           class="border p-2 flex flex-col space-y-6 font-semibold text-xl"
@@ -106,7 +101,7 @@ import Layout from "../layouts/Layout.astro";
         "keywords": "time zone calculator, world clock, meeting scheduler, time difference, time zones, global time, time zone tool, schedule across time zones, convert time, time zone calculator",
         "author": { "@type": "Person", "name": "Sean Rooney" },
         "publisher": { "@type": "Person", "name": "Sean Rooney" },
-        "datePublished": "2025-04-11T08:00:00+00:00",
+        "datePublished": "2025-04-13T02:00:00+00:00",
         "url": "https://timezonecalculator.app",
         "mainEntityOfPage": "https://timezonecalculator.app",
         "robots": "index, follow",
