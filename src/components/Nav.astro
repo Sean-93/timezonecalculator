@@ -13,43 +13,40 @@
     <i class="material-icons text-center" id="menuIcon">menu</i>
   </div>
   <ul
-    class="dropdown-content bg-blue-600 z-[1] p-6 hidden absolute w-full space-y-8 border-2 border-blue-600 rounded-xl text-white"
+    class="dropdown-content bg-blue-600 z-[1] p-6 hidden absolute w-full border-2 border-blue-600 rounded-xl text-white"
   >
-    <li>
+    <li class="hover:bg-white hover:text-blue-600 p-4">
       <a href="/" class="flex items-center space-x-1">
         <i class="material-icons">schedule</i><span>Home</span>
       </a>
     </li>
     <hr />
-    <li>
+    <li class="hover:bg-white hover:text-blue-600 p-4">
       <a href="/about" class="flex items-center space-x-1">
         <i class="material-icons">info</i><span>About</span>
       </a>
     </li>
     <hr />
-    <li>
+    <li class="hover:bg-white hover:text-blue-600 p-4">
       <a href="/privacy-policy" class="flex items-center space-x-1">
         <i class="material-icons">article</i><span>Privacy Policy</span>
       </a>
     </li>
   </ul>
 </div>
-<nav class="p-6 bg-blue-600 text-white md:flex justify-between">
+<nav class="p-6 bg-blue-600 text-white md:flex justify-between items-center">
+  <!-- LOGO -->
   <a
     href="/"
-    class="text-white md:flex items-center"
+    class="text-white md:flex items-center w-sm"
     title="An online time zone calculator tool"
   >
-    <span class="flex items-center hover:!no-underline">
-      <i class="material-icons">schedule</i><i class="material-icons"
-        >language</i
-      ><i class="material-icons">more_time</i><i class="material-icons"
-        >public</i
-      ><i class="material-icons">update</i>
-    </span>
-    <span class="hidden md:inline">&nbsp;</span>
-
-    <span class="text-xl">Time Zone Calculator</span>
+    <img
+      src="/timezone-calculator-logo.svg"
+      alt="Time Zone Calculator logo"
+      width="384px"
+      height="52px"
+    />
   </a>
   <!-- DESKTOP NAV -->
   <span class="hidden md:inline">

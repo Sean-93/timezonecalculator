@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="475mm"
+   height="64mm"
+   viewBox="0 0 475 64"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1">
+    <circle
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:4.31727;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       id="path1"
+       cx="38.685932"
+       cy="32"
+       r="28.993919" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:3.77294;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       d="M 38.685935,30.014378 V 10.022377"
+       id="path3" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:3.77294;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       d="M 39.398193,33.350302 52.169511,46.822064"
+       id="path4" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.65651;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       id="path2"
+       cx="38.685932"
+       cy="32"
+       r="1.8418846" />
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:600;font-stretch:normal;font-size:35.9833px;line-height:0;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI, Semi-Bold Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:2.64583px;word-spacing:-5.29167px;direction:rtl;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:fill markers stroke"
+       x="463.79416"
+       y="44.841564"
+       id="text5"><tspan
+         id="tspan5"
+         style="font-style:italic;font-variant:normal;font-weight:600;font-stretch:normal;font-size:35.9833px;line-height:0;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI, Semi-Bold Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:2.64583px;word-spacing:-5.29167px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.5;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         x="466.44"
+         y="44.841564">Time Zone Calculator</tspan></text>
+  </g>
+</svg>
