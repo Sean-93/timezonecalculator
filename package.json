@@ -1,5 +1,5 @@
 {
-  "name": "timezone-calculator",
+  "name": "tz-compare",
   "type": "module",
   "version": "0.0.1",
   "scripts": {

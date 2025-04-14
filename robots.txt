@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://tzcompare.com/sitemap-index.xml
