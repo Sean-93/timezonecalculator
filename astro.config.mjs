@@ -5,7 +5,7 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://tzcompare.com/",
+  site: "https://timezonecalculator.net/",
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],

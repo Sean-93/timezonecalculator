@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://tzcompare.com/sitemap-index.xml
+Sitemap: https://timezonecalculator.net/sitemap-index.xml

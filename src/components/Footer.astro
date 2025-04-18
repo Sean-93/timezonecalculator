@@ -1,16 +1,17 @@
 ---
-
 ---
 
-<footer >
+<footer>
   <nav class="p-6 bg-blue-600 text-white md:flex items-center justify-between">
     <div class="mb-6 md:mb-0">
-      <a
-        href="/"
-        class="text-white lg:flex items-center max-w-3xs"
-        title="TZCompare - an online time zone converter app"
-      >
-      <img src="/tzcompare-logo.svg" alt="Time Zone Calculator logo" width="256px" height="57px">
+      <a href="/" class="text-white lg:flex items-center max-w-sm">
+        <img
+          src="/timezone-calculator-logo.svg"
+          alt="Time Zone Calculator logo"
+          width="384px"
+          height="52px"
+          title="Go to homepage"
+        />
       </a>
     </div>
     <span>
@@ -34,14 +35,12 @@
     </span>
   </nav>
   <section>
-    <p class=" p-6">
-      © <span id="current-year"></span>&nbsp;<span>tzcompare.com</span>
+    <p class="p-6">
+      © <span id="current-year"></span>&nbsp;<span>TimeZoneCalculator.net</span>
     </p>
   </section>
 </footer>
-<style>
-	
-</style>
+<style></style>
 <script is:inline>
   // THIS IS FOR THE COPYRIGHT STATEMENT
   document.getElementById("current-year").innerHTML = new Date().getFullYear();
